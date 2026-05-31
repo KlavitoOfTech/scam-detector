@@ -1,5 +1,8 @@
 import "../App.css";
 import logo from "../assets/trustscan.png";
+import logo1 from "../assets/dashboard.png";
+import logo2 from "../assets/scanner.png";
+import video from "../assets/trustscan.mp4";
 import {
   Shield,
   AlertTriangle,
@@ -107,6 +110,85 @@ function Home() {
 
       </section>
 
+      <section className="insights-section">
+
+        {/* LEFT SIDE - 40% */}
+        <div className="insights-left">
+
+          <span className="section-badge">
+            Resources
+          </span>
+
+          <h2>
+            Learn, Stay Updated & Stay Protected
+          </h2>
+
+          <div className="resource-list">
+
+            <a href="#" className="resource-card">
+              <h3>TrustScan Blog</h3>
+              <p>Latest cybersecurity insights and guides.</p>
+            </a>
+
+            <a href="#" className="resource-card">
+              <h3>Browser Extension</h3>
+              <p>Scan websites instantly while browsing.</p>
+            </a>
+
+            <a href="#" className="resource-card">
+              <h3>Security News</h3>
+              <p>Breaking scam alerts and threat reports.</p>
+            </a>
+
+            <a href="#" className="resource-card">
+              <h3>AI Scam Detection</h3>
+              <p>Discover how our AI identifies threats.</p>
+            </a>
+
+          </div>
+
+        </div>
+
+        {/* RIGHT SIDE - 60% */}
+        <div className="insights-right">
+
+          <div className="video-preview">
+
+            <video
+              src={video}
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+
+            {/* floating cards like screenshot */}
+            <div className="video-card card-left">
+              <h4>Verify</h4>
+              <p>KYC, documents, and risk checks</p>
+            </div>
+
+            <div className="video-card card-center">
+              <h4>Approve</h4>
+              <p>User consent before data disclosure</p>
+            </div>
+
+            <div className="video-card card-right">
+              <h4>Prove</h4>
+              <p>Reusable proof with audit history</p>
+            </div>
+
+            <div className="preview-badge">
+              Platform Preview
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
       {/* FEATURES */}
 
         <section
@@ -125,7 +207,7 @@ function Home() {
 
             <div className="showcase-image">
               <img
-                src="/images/scam-dashboard.png"
+                src={logo1}
                 alt="TrustScan Dashboard"
               />
             </div>
@@ -161,7 +243,7 @@ function Home() {
 
             <div className="showcase-image">
               <img
-                src="/images/url-scanner.png"
+                src={logo2}
                 alt="URL Scanner"
               />
             </div>
