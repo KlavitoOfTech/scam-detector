@@ -111,7 +111,6 @@ function Home() {
       </section>
 
       <section className="insights-section">
-
         {/* LEFT SIDE - 40% */}
         <div className="insights-left">
 
@@ -126,23 +125,35 @@ function Home() {
           <div className="resource-list">
 
             <a href="#" className="resource-card">
-              <h3>TrustScan Blog</h3>
-              <p>Latest cybersecurity insights and guides.</p>
+              <div className="resource-info">
+                <h3>TrustScan Blog</h3>
+                <p>Latest cybersecurity insights and guides.</p>
+              </div>
+              <ArrowRight className="resource-arrow" size={22} />
             </a>
 
             <a href="#" className="resource-card">
-              <h3>Browser Extension</h3>
-              <p>Scan websites instantly while browsing.</p>
+              <div className="resource-info">
+                <h3>Browser Extension</h3>
+                <p>Scan websites instantly while browsing.</p>
+              </div>
+              <ArrowRight className="resource-arrow" size={22} />
             </a>
 
             <a href="#" className="resource-card">
-              <h3>Security News</h3>
-              <p>Breaking scam alerts and threat reports.</p>
+              <div className="resource-info">
+                <h3>Security News</h3>
+                <p>Breaking scam alerts and threat reports.</p>
+              </div>
+              <ArrowRight className="resource-arrow" size={22} />
             </a>
 
             <a href="#" className="resource-card">
-              <h3>AI Scam Detection</h3>
-              <p>Discover how our AI identifies threats.</p>
+              <div className="resource-info">
+                <h3>AI Scam Detection</h3>
+                <p>Discover how our AI identifies threats.</p>
+              </div>
+              <ArrowRight className="resource-arrow" size={22} />
             </a>
 
           </div>
