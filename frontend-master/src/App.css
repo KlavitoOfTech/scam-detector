@@ -426,6 +426,11 @@ button:disabled{
   left:100%;
 }
 
+.resource-icon{
+  color: white;
+  flex-shrink:0;
+}
+
 .resource-info{
   flex:1;
 }
@@ -434,6 +439,9 @@ button:disabled{
   margin:0 0 8px;
   font-size:18px;
   color:white;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .resource-info p{
