@@ -8,6 +8,9 @@ import {
   AlertTriangle,
   Globe,
   Puzzle,
+  BookOpen,
+  Newspaper,
+  ShieldCheck,
   Zap,
   LogIn,
   Lock,
@@ -18,6 +21,7 @@ import {
   X,
   Send
 } from "lucide-react";
+
 
 function Home() {
 
@@ -126,7 +130,10 @@ function Home() {
 
             <a href="#" className="resource-card">
               <div className="resource-info">
-                <h3>TrustScan Blog</h3>
+                <h3>
+                  <BookOpen size={18} className="resource-icon" />
+                  TrustScan Blog
+                </h3>
                 <p>Latest cybersecurity insights and guides.</p>
               </div>
               <ArrowRight className="resource-arrow" size={22} />
@@ -134,7 +141,10 @@ function Home() {
 
             <a href="#" className="resource-card">
               <div className="resource-info">
-                <h3>Browser Extension</h3>
+                <h3>
+                  <Puzzle size={18} className="resource-icon" />
+                  Browser Extension
+                </h3>
                 <p>Scan websites instantly while browsing.</p>
               </div>
               <ArrowRight className="resource-arrow" size={22} />
@@ -142,7 +152,10 @@ function Home() {
 
             <a href="#" className="resource-card">
               <div className="resource-info">
-                <h3>Security News</h3>
+                <h3>
+                  <Newspaper size={18} className="resource-icon" />
+                  Security News
+                </h3>
                 <p>Breaking scam alerts and threat reports.</p>
               </div>
               <ArrowRight className="resource-arrow" size={22} />
@@ -150,7 +163,10 @@ function Home() {
 
             <a href="#" className="resource-card">
               <div className="resource-info">
-                <h3>AI Scam Detection</h3>
+                <h3>
+                  <ShieldCheck size={18} className="resource-icon" />
+                  AI Scam Detection
+                </h3>
                 <p>Discover how our AI identifies threats.</p>
               </div>
               <ArrowRight className="resource-arrow" size={22} />
