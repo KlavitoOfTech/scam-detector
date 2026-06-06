@@ -1,140 +1,73 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Camera,
+  Image,
+  Link2,
+  Clipboard,
+  QrCode,
+  Search
+} from "lucide-react";
+
+import "../App.css";
 
 function Dashboard() {
-
-  const [message, setMessage] = useState("");
-  const [result, setResult] = useState("");
-
-  const [loading, setLoading] = useState(false);
-
-  const token =
-    localStorage.getItem("token");
-
-  const analyzeMessage = async () => {
-
-    if (!message) {
-
-      alert("Enter a message");
-
-      return;
-
-    }
-
-    try {
-
-      setLoading(true);
-
-      const response = await fetch(
-        "http://127.0.0.1:5000/predict",
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json",
-            Authorization:
-              `Bearer ${token}`,
-          },
-
-          body: JSON.stringify({
-            message,
-          }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.status === 403) {
-
-        alert(data.message);
-
-        return;
-
-      }
-
-      setResult(data.result);
-
-    } catch (error) {
-
-      console.error(error);
-
-      alert("Prediction failed");
-
-    } finally {
-
-      setLoading(false);
-
-    }
-
-  };
-
-  const logout = () => {
-
-    localStorage.removeItem("token");
-
-    window.location.href = "/";
-
-  };
-
   return (
+    <div className="dashboard">
 
-    <div className="container">
+      <h1 className="dashboard-title">
+        Scan
+      </h1>
 
-      <div className="card">
+      <div className="dashboard-banner">
+        <h2>What looks suspicious?</h2>
+        <p>
+          Scan texts, emails, screenshots, links,
+          charities and more.
+        </p>
+      </div>
 
-        <h1>🛡 TrustScan</h1>
+      <div className="scan-grid">
 
-        <textarea
-          placeholder="Paste suspicious message..."
-          value={message}
-          onChange={(e) =>
-            setMessage(e.target.value)
-          }
-        />
+        <Link to="/camera-scan" className="scan-card">
+          <Camera size={32} />
+          <h3>Camera Scan</h3>
+          <p>Scan documents & logos</p>
+        </Link>
 
-        <button
-          onClick={analyzeMessage}
-          disabled={loading}
-        >
-          {loading
-            ? "Scanning..."
-            : "Analyze"}
-        </button>
+        <Link to="/screenshot" className="scan-card">
+          <Image size={32} />
+          <h3>Screenshot</h3>
+          <p>Analyze a screenshot</p>
+        </Link>
 
-        {result && (
+        <Link to="/paste-text" className="scan-card">
+          <Clipboard size={32} />
+          <h3>Paste Text</h3>
+          <p>Paste a message or email</p>
+        </Link>
 
-          <div className="result">
+        <Link to="/check-url" className="scan-card">
+          <Link2 size={32} />
+          <h3>Check URL</h3>
+          <p>Verify a suspicious link</p>
+        </Link>
 
-            {result === "spam" ? (
+        <Link to="/qr-code" className="scan-card">
+          <QrCode size={32} />
+          <h3>QR Code</h3>
+          <p>Scan a QR code safely</p>
+        </Link>
 
-              <h2 className="spam">
-                🚨 Spam Detected
-              </h2>
-
-            ) : (
-
-              <h2 className="safe">
-                ✅ Safe Message
-              </h2>
-
-            )}
-
-          </div>
-
-        )}
-
-        <button
-          className="logout"
-          onClick={logout}
-        >
-          Logout
-        </button>
+        <Link to="/search-name" className="scan-card">
+          <Search size={32} />
+          <h3>Search Name</h3>
+          <p>Look up a charity or company</p>
+        </Link>
 
       </div>
 
     </div>
-
   );
-
 }
 
 export default Dashboard;
