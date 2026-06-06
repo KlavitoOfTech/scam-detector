@@ -1,0 +1,43 @@
+.hero{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:60px 20px 40px;
+}
+
+.hero-content{
+  max-width:900px;
+}
+
+.hero h1{
+  font-size:68px;
+  line-height:1.1;
+  margin-bottom:27px;
+}
+
+.hero-subtitle{
+  font-size:20px;
+  color:#d0d0d0;
+  line-height:1.7;
+  margin-bottom:40px;
+}
+
+.hero-buttons{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.hero-btn,
+.secondary-btn{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.secondary-btn{
+  background:rgba(255,255,255,0.08);
+}
