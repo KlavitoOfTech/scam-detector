@@ -1,27 +1,32 @@
 import { useState } from "react";
+import {
+  Eye,
+  EyeOff
+} from "lucide-react";
+import logo from "../assets/trustscan.png";
+
+import "../styles/auth.css";
 
 function Login() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
-
     try {
 
       const response = await fetch(
         "http://127.0.0.1:5000/login",
         {
           method: "POST",
-
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
           },
-
           body: JSON.stringify({
             username,
-            password,
-          }),
+            password
+          })
         }
       );
 
@@ -33,8 +38,6 @@ function Login() {
           "token",
           data.token
         );
-
-        alert("Login successful");
 
         window.location.href =
           "/dashboard";
@@ -52,41 +55,108 @@ function Login() {
       alert("Login failed");
 
     }
-
   };
 
   return (
 
-    <div className="container">
+    <div className="auth-page">
 
-      <div className="card">
+      <div className="auth-card">
 
-        <h1>🛡 TrustScan</h1>
+        <div className="auth-logo">
+          <img
+            src={logo}
+            alt="TrustScan Logo"
+            className="auth-logo-img"
+          />
+        </div>
 
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) =>
-            setUsername(e.target.value)
-          }
-        />
+        <h1>Welcome Back</h1>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-        />
+        <p className="auth-subtitle">
+          Sign in to continue protecting yourself with TrustScan.
+        </p>
 
-        <button onClick={handleLogin}>
+        <div className="form-group">
+
+          <label>Email</label>
+
+          <input
+            type="text"
+            placeholder="Enter username"
+            value={username}
+            onChange={(e) =>
+              setUsername(e.target.value)
+            }
+          />
+
+        </div>
+
+        <div className="form-group">
+
+          <label>Password</label>
+
+          <div className="password-wrapper">
+
+            <input
+              type={
+                showPassword
+                  ? "text"
+                  : "password"
+              }
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
+            />
+
+            <button
+              type="button"
+              className="eye-btn"
+              onClick={() =>
+                setShowPassword(!showPassword)
+              }
+            >
+              {
+                showPassword
+                  ? <EyeOff size={18}/>
+                  : <Eye size={18}/>
+              }
+            </button>
+
+          </div>
+
+        </div>
+
+        <div className="forgot-row">
+
+          <span
+            className="forgot-link"
+          >
+            Forgot Password?
+          </span>
+
+        </div>
+
+        <button
+          className="login-btn"
+          onClick={handleLogin}
+        >
           Login
         </button>
 
-        <p>
-          Don't have an account?{" "}
+        <div className="divider">
+          OR CONTINUE WITH
+        </div>
+
+        <button className="google-btn">
+          Continue with Google
+        </button>
+
+        <p className="signup-text">
+
+          Don't have an account?
 
           <span
             className="toggle"
@@ -95,7 +165,7 @@ function Login() {
               "/signup"
             }
           >
-            Signup
+            Sign up
           </span>
 
         </p>
@@ -105,7 +175,6 @@ function Login() {
     </div>
 
   );
-
 }
 
 export default Login;
