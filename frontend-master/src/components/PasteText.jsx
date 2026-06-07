@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+
+import "../styles/pasteText.css";
+
 function PasteText() {
 
   const [message, setMessage] = useState("");

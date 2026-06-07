@@ -1,0 +1,219 @@
+/* =========================
+   TRUSTSCAN PASTETEXT PAGE
+   (MATCHED TO YOUR APP UI)
+========================= */
+
+/* PAGE WRAPPER */
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 30px;
+
+  background:
+    linear-gradient(135deg, #080808, #111111);
+}
+
+/* MAIN CARD */
+.card {
+  width: 100%;
+  max-width: 600px;
+
+  padding: 35px;
+
+  color: white;
+
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+
+  box-shadow:
+    0 0 40px rgba(255, 77, 77, 0.08),
+    0 25px 70px rgba(0, 0, 0, 0.6);
+
+  transition: 0.3s ease;
+
+  position: relative;
+}
+
+/* CARD HOVER */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 0 70px rgba(255, 77, 77, 0.15),
+    0 30px 80px rgba(0, 0, 0, 0.7);
+}
+
+/* =========================
+   LOGO SECTION (NEW)
+========================= */
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 25px;
+}
+
+.logo-container img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+
+  margin-bottom: 10px;
+
+  filter: drop-shadow(0 0 10px rgba(255, 77, 77, 0.4));
+}
+
+.logo-container h1 {
+  font-size: 28px;
+  font-weight: 700;
+
+  background: linear-gradient(90deg, #ff4d4d, #ff8a8a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* SUB TEXT (optional tagline) */
+.subtitle {
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* TEXTAREA */
+textarea {
+  width: 100%;
+  min-height: 160px;
+
+  padding: 16px;
+
+  border-radius: 14px;
+
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  color: white;
+  font-size: 15px;
+
+  resize: none;
+
+  outline: none;
+
+  transition: 0.3s ease;
+}
+
+textarea:focus {
+  border-color: #ff4d4d;
+  box-shadow: 0 0 15px rgba(255, 77, 77, 0.25);
+}
+
+/* BUTTON */
+button {
+  width: 100%;
+
+  margin-top: 18px;
+  padding: 14px;
+
+  border: none;
+  border-radius: 14px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  color: white;
+
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #ff4d4d, #b30000);
+
+  transition: 0.3s ease;
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* RESULT BOX */
+.result {
+  margin-top: 22px;
+  padding: 18px;
+
+  border-radius: 16px;
+
+  text-align: center;
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  animation: fadeIn 0.4s ease;
+}
+
+/* STATUS TEXT */
+.spam {
+  color: #ff3b3b;
+  font-size: 20px;
+  text-shadow: 0 0 12px rgba(255, 59, 59, 0.5);
+}
+
+.safe {
+  color: #00e676;
+  font-size: 20px;
+  text-shadow: 0 0 12px rgba(0, 230, 118, 0.4);
+}
+
+/* LOGOUT */
+.logout {
+  margin-top: 25px;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logout:hover {
+  border-color: #ff4d4d;
+  background: rgba(255, 77, 77, 0.1);
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .card {
+    padding: 25px;
+  }
+
+  .logo-container img {
+    width: 55px;
+    height: 55px;
+  }
+
+  .logo-container h1 {
+    font-size: 22px;
+  }
+
+  textarea {
+    min-height: 140px;
+  }
+}
