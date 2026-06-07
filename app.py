@@ -3,8 +3,7 @@ from flask_cors import CORS
 import sqlite3
 import joblib
 import pytesseract
-
-from PIL import Image
+from PIL import Image, ImageEnhance, ImageFilter
 
 from flask_jwt_extended import (
     JWTManager,
@@ -14,6 +13,16 @@ from flask_jwt_extended import (
 )
 
 # -----------------------------------
+# APP SETUP
+# -----------------------------------
+
+app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+app.config["JWT_SECRET_KEY"] = "supersecretkey_123456789_secure"
+jwt = JWTManager(app)
+
+# -----------------------------------
 # TESSERACT CONFIG
 # -----------------------------------
 
@@ -21,13 +30,10 @@ pytesseract.pytesseract.tesseract_cmd = (
     r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 )
 
-print(
-    "Tesseract Version:",
-    pytesseract.get_tesseract_version()
-)
+print("Tesseract Version:", pytesseract.get_tesseract_version())
 
 # -----------------------------------
-# LOAD MODEL
+# LOAD ML MODEL
 # -----------------------------------
 
 model = joblib.load("spam_model.pkl")
@@ -37,29 +43,12 @@ model = joblib.load("spam_model.pkl")
 # -----------------------------------
 
 scam_keywords = [
-    "free",
-    "crypto",
-    "airdrop",
-    "claim",
-    "winner",
-    "gift",
-    "wallet",
-    "urgent",
-    "bonus",
-    "google"
+    "free", "crypto", "airdrop", "claim", "winner", "gift",
+    "wallet", "urgent", "bonus", "login", "password",
+    "verify", "account", "bank", "security", "click",
+    "limited", "offer", "congratulations", "prize",
+    "reward", "https", "bitcoin", "ethereum"
 ]
-
-# -----------------------------------
-# APP CONFIG
-# -----------------------------------
-
-app = Flask(__name__)
-
-CORS(app)
-
-app.config["JWT_SECRET_KEY"] = "supersecretkey"
-
-jwt = JWTManager(app)
 
 # -----------------------------------
 # HOME
@@ -67,7 +56,6 @@ jwt = JWTManager(app)
 
 @app.route("/")
 def home():
-
     return "TrustScan API Running"
 
 # -----------------------------------
@@ -79,51 +67,40 @@ def home():
 def predict():
 
     data = request.get_json()
-
-    message = data["message"]
+    message = data.get("message", "")
 
     connection = sqlite3.connect("users.db")
     cursor = connection.cursor()
 
     cursor.execute(
-        """
-        SELECT free_trials
-        FROM users
-        WHERE username=?
-        """,
+        "SELECT free_trials FROM users WHERE username=?",
         (get_jwt_identity(),)
     )
 
     user = cursor.fetchone()
 
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
     free_trials = user[0]
 
     if free_trials <= 0:
-
-        connection.close()
-
-        return jsonify({
-            "message": "Free trial finished. Upgrade required."
-        }), 403
+        return jsonify({"message": "Free trial finished. Upgrade required."}), 403
 
     message_lower = message.lower()
 
-    keyword_detected = any(
-        word in message_lower
-        for word in scam_keywords
-    )
+    keyword_detected = any(word in message_lower for word in scam_keywords)
 
-    prediction = model.predict([message])[0]
+    try:
+        prediction = model.predict([message])[0]
+    except:
+        prediction = "unknown"
 
     if keyword_detected:
         prediction = "spam"
 
     cursor.execute(
-        """
-        UPDATE users
-        SET free_trials = free_trials - 1
-        WHERE username=?
-        """,
+        "UPDATE users SET free_trials = free_trials - 1 WHERE username=?",
         (get_jwt_identity(),)
     )
 
@@ -144,23 +121,33 @@ def predict():
 def ocr():
 
     if "image" not in request.files:
-
-        return jsonify({
-            "message": "No image uploaded"
-        }), 400
+        return jsonify({"message": "No image uploaded"}), 400
 
     image_file = request.files["image"]
 
-    image = Image.open(image_file)
+    image = Image.open(image_file.stream).convert("RGB")
 
-    extracted_text = pytesseract.image_to_string(image)
+    width, height = image.size
+    image = image.resize((width * 2, height * 2))
+
+    image = image.convert("L")
+
+    enhancer = ImageEnhance.Contrast(image)
+    image = enhancer.enhance(1.8)
+
+    image = image.filter(ImageFilter.SHARPEN)
+
+    extracted_text = pytesseract.image_to_string(
+        image,
+        config="--oem 3 --psm 6"
+    )
 
     return jsonify({
-        "text": extracted_text
+        "text": extracted_text.strip()
     })
 
 # -----------------------------------
-# IMAGE ANALYSIS
+# IMAGE ANALYSIS (MAIN FEATURE)
 # -----------------------------------
 
 @app.route("/analyze-image", methods=["POST"])
@@ -168,51 +155,56 @@ def ocr():
 def analyze_image():
 
     if "image" not in request.files:
-
-        return jsonify({
-            "message": "No image uploaded"
-        }), 400
+        return jsonify({"message": "No image uploaded"}), 400
 
     image_file = request.files["image"]
 
-    image = Image.open(image_file)
+    image = Image.open(image_file.stream).convert("RGB")
 
-    extracted_text = pytesseract.image_to_string(image,
-    config="--psm 6")
+    width, height = image.size
+    image = image.resize((width * 2, height * 2))
 
-    print("OCR TEXT:")
-    print(extracted_text)
-    print("----------------")
+    image = image.convert("L")
+
+    enhancer = ImageEnhance.Contrast(image)
+    image = enhancer.enhance(1.8)
+
+    image = image.filter(ImageFilter.SHARPEN)
+
+    extracted_text = pytesseract.image_to_string(
+        image,
+        config="--oem 3 --psm 6"
+    )
 
     text_lower = extracted_text.lower()
 
-    keyword_detected = any(
-        word in text_lower
-        for word in scam_keywords
-    )
+    keyword_hits = [
+        word for word in scam_keywords
+        if word in text_lower
+    ]
 
-    prediction = model.predict(
-        [extracted_text]
-    )[0]
+    keyword_detected = len(keyword_hits) > 0
 
-    if keyword_detected:
-        prediction = "spam"
+    try:
+        prediction = model.predict([extracted_text])[0]
+    except:
+        prediction = "unknown"
 
-    risk_score = 25
+    risk_score = 20
 
     if prediction == "spam":
-        risk_score = 90
+        risk_score += 50
+
+    risk_score += min(len(keyword_hits) * 5, 30)
+
+    risk_score = min(risk_score, 100)
 
     return jsonify({
-
-        "text": extracted_text,
-
+        "text": extracted_text.strip(),
         "result": prediction,
-
         "risk_score": risk_score,
-
-        "keyword_detected": keyword_detected
-
+        "keyword_detected": keyword_detected,
+        "keywords_found": keyword_hits
     })
 
 # -----------------------------------
@@ -231,47 +223,22 @@ def signup():
     cursor = connection.cursor()
 
     cursor.execute(
-        """
-        SELECT *
-        FROM users
-        WHERE username=?
-        """,
+        "SELECT * FROM users WHERE username=?",
         (username,)
     )
 
-    existing_user = cursor.fetchone()
-
-    if existing_user:
-
-        connection.close()
-
-        return jsonify({
-            "message": "User already exists"
-        }), 400
+    if cursor.fetchone():
+        return jsonify({"message": "User already exists"}), 400
 
     cursor.execute(
-        """
-        INSERT INTO users
-        (
-            username,
-            password,
-            free_trials
-        )
-        VALUES (?, ?, ?)
-        """,
-        (
-            username,
-            password,
-            3
-        )
+        "INSERT INTO users (username, password, free_trials) VALUES (?, ?, ?)",
+        (username, password, 3)
     )
 
     connection.commit()
     connection.close()
 
-    return jsonify({
-        "message": "Signup successful"
-    })
+    return jsonify({"message": "Signup successful"})
 
 # -----------------------------------
 # LOGIN
@@ -289,42 +256,25 @@ def login():
     cursor = connection.cursor()
 
     cursor.execute(
-        """
-        SELECT *
-        FROM users
-        WHERE username=?
-        AND password=?
-        """,
-        (
-            username,
-            password
-        )
+        "SELECT * FROM users WHERE username=? AND password=?",
+        (username, password)
     )
 
     user = cursor.fetchone()
-
     connection.close()
 
     if not user:
+        return jsonify({"message": "Invalid credentials"}), 401
 
-        return jsonify({
-            "message": "Invalid credentials"
-        }), 401
+    token = create_access_token(identity=username)
 
-    access_token = create_access_token(
-        identity=username
-    )
-
-    return jsonify({
-        "token": access_token
-    })
+    return jsonify({"token": token})
 
 # -----------------------------------
-# START SERVER
+# RUN SERVER
 # -----------------------------------
 
 if __name__ == "__main__":
-
     app.run(
         debug=True,
         host="0.0.0.0",
