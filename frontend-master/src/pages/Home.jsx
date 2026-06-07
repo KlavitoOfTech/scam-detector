@@ -6,6 +6,7 @@ import Resources from "./Resources";
 import Features from "./Features";
 import About from "./About";
 import Contact from "./Contact";
+import Footer from "./Footer";
 
 function Home() {
   return (
@@ -22,6 +23,8 @@ function Home() {
       <About />
 
       <Contact />
+
+      <Footer />
 
     </div>
   );
