@@ -26,11 +26,23 @@ jwt = JWTManager(app)
 # TESSERACT CONFIG
 # -----------------------------------
 
-pytesseract.pytesseract.tesseract_cmd = (
-    r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-)
+import pytesseract
+import shutil
+import os
 
-print("Tesseract Version:", pytesseract.get_tesseract_version())
+# auto-detect tesseract
+tesseract_path = shutil.which("tesseract")
+
+if tesseract_path:
+    pytesseract.pytesseract.tesseract_cmd = tesseract_path
+else:
+    print("⚠️ Tesseract not found on system PATH")
+
+# OPTIONAL: safe version check (only if installed)
+try:
+    print("Tesseract Version:", pytesseract.get_tesseract_version())
+except Exception as e:
+    print("Tesseract not available at startup:", e)
 
 # -----------------------------------
 # LOAD ML MODEL
