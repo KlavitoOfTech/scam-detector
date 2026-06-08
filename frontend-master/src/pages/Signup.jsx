@@ -3,6 +3,7 @@ import "../styles/auth.css";
 
 function Signup() {
 
+  const API = process.env.REACT_APP_API_URL;
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -11,7 +12,7 @@ function Signup() {
     try {
 
       const response = await fetch(
-        "http://127.0.0.1:5000/signup",
+        `${API}/signup`,
         {
           method: "POST",
 
