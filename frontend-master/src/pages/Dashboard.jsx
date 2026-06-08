@@ -8,7 +8,7 @@ import {
   Search
 } from "lucide-react";
 
-import "../App.css";
+import "../styles/dashboard.css";
 
 function Dashboard() {
   return (

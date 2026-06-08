@@ -51,3 +51,144 @@ body{
 .mini-title svg{
   color:#ff4d4d;
 }
+
+.container{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+.card{
+  width:420px;
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding:35px;
+  border-radius:24px;
+  box-shadow:
+    0 0 30px rgba(255, 0, 0, 0.25),
+    0 10px 40px rgba(0,0,0,0.5);
+  text-align:center;
+  color:white;
+  position:relative;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  top:-2px;
+  left:-2px;
+  right:-2px;
+  bottom:-2px;
+  border-radius:24px;
+  background: linear-gradient(
+    135deg,
+    rgba(255,0,0,0.5),
+    rgba(255,80,80,0.1),
+    rgba(255,0,0,0.4)
+  );
+  z-index:-1;
+  filter: blur(15px);
+}
+
+h1{
+  font-size:32px;
+  margin-bottom:10px;
+  color:#ff4d4d;
+  letter-spacing:1px;
+}
+
+.subtitle{
+  color:#cfcfcf;
+  font-size:15px;
+  margin-bottom:25px;
+  line-height:1.6;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin-top:15px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color:white;
+  font-size:15px;
+  outline:none;
+  transition:0.3s;
+  box-sizing:border-box;
+}
+
+input:focus{
+  border:1px solid #ff4d4d;
+  box-shadow:0 0 10px rgba(255,0,0,0.4);
+}
+
+textarea{
+  width:100%;
+  height:130px;
+  padding:14px;
+  margin-top:20px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color:white;
+  resize:none;
+  font-size:15px;
+  outline:none;
+  transition:0.3s;
+  box-sizing:border-box;
+}
+
+textarea:focus{
+  border:1px solid #ff4d4d;
+  box-shadow:0 0 10px rgba(255,0,0,0.4);
+}
+
+textarea::placeholder,
+input::placeholder{
+  color:#999;
+}
+
+
+.result{
+  margin-top:30px;
+  padding:18px;
+  border-radius:14px;
+  background: rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.spam{
+  color:#ff4d4d;
+  font-size:24px;
+}
+
+.safe{
+  color:#00d26a;
+  font-size:24px;
+}
+
+.toggle{
+  color:#ff6666;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+.toggle:hover{
+  color:#ff1a1a;
+}
+
+.logout{
+  margin-top:20px;
+  background: linear-gradient(135deg, #ff4d4d, #660000);
+}
+
+.trials{
+  margin-top:10px;
+  color:#ddd;
+  font-size:14px;
+}
