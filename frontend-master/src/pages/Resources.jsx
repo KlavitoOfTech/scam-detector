@@ -11,7 +11,8 @@ import {
 function Resources() {
   return (
     <section className="insights-section" id="resources">
-      {/* LEFT SIDE - 40% */}
+
+      {/* LEFT SIDE */}
       <div className="insights-left">
 
         <span className="section-badge">
@@ -24,7 +25,7 @@ function Resources() {
 
         <div className="resource-list">
 
-          <a href="#" className="resource-card">
+          <a href="/blog" className="resource-card">
             <div className="resource-info">
               <h3>
                 <BookOpen size={18} className="resource-icon" />
@@ -35,7 +36,7 @@ function Resources() {
             <ArrowRight size={22} />
           </a>
 
-          <a href="#" className="resource-card">
+          <a href="/extension" className="resource-card">
             <div className="resource-info">
               <h3>
                 <Puzzle size={18} className="resource-icon" />
@@ -46,7 +47,7 @@ function Resources() {
             <ArrowRight size={22} />
           </a>
 
-          <a href="#" className="resource-card">
+          <a href="/security-news" className="resource-card">
             <div className="resource-info">
               <h3>
                 <Newspaper size={18} className="resource-icon" />
@@ -57,7 +58,7 @@ function Resources() {
             <ArrowRight size={22} />
           </a>
 
-          <a href="#" className="resource-card">
+          <a href="/ai-detection" className="resource-card">
             <div className="resource-info">
               <h3>
                 <ShieldCheck size={18} className="resource-icon" />
@@ -71,7 +72,8 @@ function Resources() {
         </div>
 
       </div>
-         {/* RIGHT SIDE - 60% */}
+
+      {/* RIGHT SIDE */}
       <div className="insights-right">
 
         <div className="video-preview">

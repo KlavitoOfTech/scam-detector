@@ -7,10 +7,7 @@ import {
 
 function Contact() {
   return (
-    <section
-      className="contact-section"
-      id="contact"
-    >
+    <section className="contact-section" id="contact">
 
       <div className="contact-card">
 
@@ -26,23 +23,45 @@ function Contact() {
 
         <div className="contact-grid">
 
-          <a href="mailto:trustscan@email.com" className="contact-item">
-            <Mail size={32}/>
+          {/* Email (valid) */}
+          <a
+            href="mailto:trustscan@email.com"
+            className="contact-item"
+          >
+            <Mail size={32} />
             Email
           </a>
 
-          <a href="#" className="contact-item">
-            <MessageCircle size={32}/>
+          {/* WhatsApp (fixed) */}
+          <a
+            href="https://wa.me/2340000000000"
+            target="_blank"
+            rel="noreferrer"
+            className="contact-item"
+          >
+            <MessageCircle size={32} />
             WhatsApp
           </a>
 
-          <a href="#" className="contact-item">
-            <X size={32}/>
+          {/* X (Twitter) */}
+          <a
+            href="https://x.com"
+            target="_blank"
+            rel="noreferrer"
+            className="contact-item"
+          >
+            <X size={32} />
             X (Twitter)
           </a>
 
-          <a href="#" className="contact-item">
-            <Send size={32}/>
+          {/* Telegram */}
+          <a
+            href="https://t.me"
+            target="_blank"
+            rel="noreferrer"
+            className="contact-item"
+          >
+            <Send size={32} />
             Telegram
           </a>
 

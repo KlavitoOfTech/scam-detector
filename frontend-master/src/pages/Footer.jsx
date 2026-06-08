@@ -11,6 +11,7 @@ function Footer() {
           <div className="footer-logo">
             🛡 TrustScan
           </div>
+
           <p>
             AI-powered scam detection system for messages,
             screenshots, and suspicious links.
@@ -22,23 +23,23 @@ function Footer() {
 
           <div>
             <h4>Product</h4>
-            <a href="#">Text Scan</a>
-            <a href="#">Screenshot Scan</a>
-            <a href="#">Camera Scan</a>
+            <a href="/text-scan">Text Scan</a>
+            <a href="/screenshot-scan">Screenshot Scan</a>
+            <a href="/camera-scan">Camera Scan</a>
           </div>
 
           <div>
             <h4>Company</h4>
-            <a href="#">About</a>
-            <a href="#">Security</a>
-            <a href="#">Privacy</a>
+            <a href="/about">About</a>
+            <a href="/security">Security</a>
+            <a href="/privacy">Privacy</a>
           </div>
 
           <div>
             <h4>Support</h4>
-            <a href="#">Help Center</a>
-            <a href="#">Contact</a>
-            <a href="#">Report Scam</a>
+            <a href="/help">Help Center</a>
+            <a href="/contact">Contact</a>
+            <a href="/report-scam">Report Scam</a>
           </div>
 
         </div>
