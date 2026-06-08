@@ -113,8 +113,7 @@ textarea:focus {
   box-shadow: 0 0 15px rgba(255, 77, 77, 0.25);
 }
 
-/* BUTTON */
-button {
+.paste-btn {
   width: 100%;
 
   margin-top: 18px;
@@ -127,20 +126,23 @@ button {
   font-weight: 600;
 
   color: white;
-
   cursor: pointer;
 
-  background: linear-gradient(135deg, #ff4d4d, #b30000);
+  background: linear-gradient(
+    135deg,
+    #ff4d4d,
+    #b30000
+  );
 
   transition: 0.3s ease;
 }
 
-button:hover {
+.paste-btn:hover {
   opacity: 0.9;
   transform: scale(1.02);
 }
 
-button:disabled {
+.paste-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }

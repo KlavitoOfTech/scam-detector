@@ -95,6 +95,7 @@ function PasteText() {
         />
 
         <button
+          className="paste-btn"
           onClick={analyzeMessage}
           disabled={loading}
         >
@@ -126,7 +127,7 @@ function PasteText() {
         )}
 
         <button
-          className="logout"
+          className="paste-btn logout"
           onClick={logout}
         >
           Logout
