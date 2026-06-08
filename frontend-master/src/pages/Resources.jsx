@@ -10,7 +10,7 @@ import {
 
 function Resources() {
   return (
-    <section className="insights-section">
+    <section className="insights-section" id="resources">
       {/* LEFT SIDE - 40% */}
       <div className="insights-left">
 
