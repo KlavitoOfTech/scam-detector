@@ -13,7 +13,14 @@ function CameraScan() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
 
-  const dataURLtoFile = (dataurl, filename) => {
+  // Back camera by default
+  const [facingMode, setFacingMode] =
+    useState("environment");
+
+  const dataURLtoFile = (
+    dataurl,
+    filename
+  ) => {
 
     const arr = dataurl.split(",");
 
@@ -40,7 +47,6 @@ function CameraScan() {
       filename,
       { type: mime }
     );
-
   };
 
   const capture = () => {
@@ -49,8 +55,6 @@ function CameraScan() {
       webcamRef.current.getScreenshot();
 
     setImage(screenshot);
-
-    // Clear previous result
     setResult(null);
 
   };
@@ -93,22 +97,27 @@ function CameraScan() {
           }
         );
 
-      const data = await response.json();
+      const data =
+        await response.json();
 
-      if (data.msg === "Token has expired") {
+      if (
+        data.msg ===
+        "Token has expired"
+      ) {
 
         alert(
           "Session expired. Please login again."
         );
 
-        localStorage.removeItem("token");
+        localStorage.removeItem(
+          "token"
+        );
 
-        window.location.href = "/login";
+        window.location.href =
+          "/login";
 
         return;
       }
-
-      console.log("API Response:", data);
 
       setResult(data);
 
@@ -138,33 +147,65 @@ function CameraScan() {
 
       <div className="camera-card">
 
-        <h1>Camera Scan</h1>
+        <h1>
+          Camera Scan
+        </h1>
 
         <p>
-          Scan QR codes, URLs, messages,
-          receipts, and suspicious content.
+          Scan QR codes, URLs,
+          messages, receipts and
+          suspicious content.
         </p>
 
         {!image ? (
 
           <>
+
             <Webcam
               ref={webcamRef}
               screenshotFormat="image/jpeg"
               className="camera-preview"
+              videoConstraints={{
+                facingMode
+              }}
             />
 
-            <button
-              className="capture-btn"
-              onClick={capture}
-            >
-              Capture
-            </button>
+            <div className="button-row">
+
+              <button
+                type="button"
+                onClick={() =>
+                  setFacingMode(
+                    facingMode ===
+                    "environment"
+                      ? "user"
+                      : "environment"
+                  )
+                }
+              >
+                {
+                  facingMode ===
+                  "environment"
+                    ? "Front Camera"
+                    : "Back Camera"
+                }
+              </button>
+
+              <button
+                className="capture-btn"
+                onClick={capture}
+              >
+                Capture
+              </button>
+
+            </div>
+
           </>
 
         ) : (
 
           <>
+
             <img
               src={image}
               alt="Captured"
@@ -204,20 +245,23 @@ function CameraScan() {
                 </h3>
 
                 <p>
-                  <strong>Status:</strong>
-                  {" "}
+                  <strong>
+                    Status:
+                  </strong>{" "}
                   {result.result}
                 </p>
 
                 <p>
-                  <strong>Risk Score:</strong>
-                  {" "}
+                  <strong>
+                    Risk Score:
+                  </strong>{" "}
                   {result.risk_score}/100
                 </p>
 
                 <p>
-                  <strong>Scam Keywords:</strong>
-                  {" "}
+                  <strong>
+                    Scam Keywords:
+                  </strong>{" "}
                   {
                     result.keyword_detected
                       ? "Detected"
@@ -244,7 +288,9 @@ function CameraScan() {
       </div>
 
     </div>
+
   );
+
 }
 
 export default CameraScan;
