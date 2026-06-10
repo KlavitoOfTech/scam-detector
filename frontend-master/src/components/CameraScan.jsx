@@ -173,6 +173,7 @@ function CameraScan() {
             <div className="button-row">
 
               <button
+                className="switch-camera-btn"
                 type="button"
                 onClick={() =>
                   setFacingMode(
@@ -215,6 +216,7 @@ function CameraScan() {
             <div className="button-row">
 
               <button
+                className="retake-btn"
                 onClick={() => {
                   setImage(null);
                   setResult(null);
