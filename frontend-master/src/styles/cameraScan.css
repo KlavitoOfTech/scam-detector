@@ -38,13 +38,6 @@
   border-radius:20px;
 }
 
-.capture-btn{
-
-  width:100%;
-
-  margin-top:20px;
-}
-
 .button-row{
 
   display:flex;
@@ -56,6 +49,38 @@
 
 .button-row button{
   flex:1;
+
+  padding:14px;
+
+  border:none;
+  border-radius:14px;
+
+  color:white;
+
+  font-size:15px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s ease;
+}
+
+/* Retake button */
+.button-row button:first-child{
+  background:#2a2a2a;
+}
+
+/* Analyze button */
+.button-row button:last-child{
+  background:linear-gradient(
+    135deg,
+    #ff4d4d,
+    #990000
+  );
+}
+
+.button-row button:hover{
+  transform:translateY(-2px);
 }
 
 .scan-result{
@@ -99,4 +124,44 @@
   color:#ddd;
 
   overflow-x:auto;
+}
+
+.capture-btn{
+  width:100%;
+
+  margin-top:20px;
+  padding:14px;
+
+  border:none;
+  border-radius:14px;
+
+  background:linear-gradient(
+    135deg,
+    #ff4d4d,
+    #990000
+  );
+
+  color:white;
+
+  font-size:16px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s ease;
+
+  box-shadow:
+    0 5px 15px rgba(255,77,77,0.3);
+}
+
+.capture-btn:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(255,77,77,0.4);
+}
+
+.capture-btn:disabled{
+  opacity:0.6;
+  cursor:not-allowed;
 }
