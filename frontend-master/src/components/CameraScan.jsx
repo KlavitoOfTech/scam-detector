@@ -5,6 +5,8 @@ import "../styles/cameraScan.css";
 
 function CameraScan() {
 
+  const API = process.env.REACT_APP_API_URL;
+
   const webcamRef = useRef(null);
 
   const [image, setImage] = useState(null);
@@ -78,7 +80,7 @@ function CameraScan() {
 
       const response =
         await fetch(
-          "http://127.0.0.1:5000/analyze-image",
+          `${API}/analyze-image`,
           {
             method: "POST",
 

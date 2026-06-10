@@ -2,6 +2,8 @@ import { useState } from "react";
 import "../styles/screenshotScan.css";
 
 function Screenshot() {
+
+  const API = process.env.REACT_APP_API_URL;
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -27,7 +29,7 @@ function Screenshot() {
       formData.append("image", file);
 
       const response = await fetch(
-        "http://127.0.0.1:5000/analyze-image",
+        `${API}/analyze-image`,
         {
           method: "POST",
           headers: {
