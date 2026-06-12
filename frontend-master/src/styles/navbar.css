@@ -54,6 +54,13 @@
 .nav-links a{
   color:white;
   text-decoration:none;
+  transition:all .3s ease;
+}
+
+.nav-links a:hover,
+.mobile-menu a:hover{
+  color:#ff4d4d;
+  text-shadow:0 0 10px rgba(255,77,77,.5);
 }
 
 /* =========================
