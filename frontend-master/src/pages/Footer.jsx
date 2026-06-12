@@ -50,7 +50,7 @@ function Footer() {
       <div className="footer-bottom">
         <p>© {new Date().getFullYear()} TrustScan. All rights reserved.</p>
         <p className="footer-tag">
-          Built with AI Security Intelligence
+          Built with ❤️ by the TrustScan Team
         </p>
       </div>
 
