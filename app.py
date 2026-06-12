@@ -26,23 +26,14 @@ jwt = JWTManager(app)
 # TESSERACT CONFIG
 # -----------------------------------
 
-import pytesseract
 import shutil
-import os
 
-# auto-detect tesseract
 tesseract_path = shutil.which("tesseract")
 
 if tesseract_path:
     pytesseract.pytesseract.tesseract_cmd = tesseract_path
 else:
-    print("⚠️ Tesseract not found on system PATH")
-
-# OPTIONAL: safe version check (only if installed)
-try:
-    print("Tesseract Version:", pytesseract.get_tesseract_version())
-except Exception as e:
-    print("Tesseract not available at startup:", e)
+    print("⚠️ Tesseract not found")
 
 # -----------------------------------
 # LOAD ML MODEL
@@ -71,7 +62,16 @@ def home():
     return "TrustScan API Running"
 
 # -----------------------------------
-# TEXT ANALYSIS
+# DB HELPER
+# -----------------------------------
+
+def get_db_connection():
+    conn = sqlite3.connect("users.db")
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# -----------------------------------
+# TEXT PREDICTION
 # -----------------------------------
 
 @app.route("/predict", methods=["POST"])
@@ -81,27 +81,11 @@ def predict():
     data = request.get_json()
     message = data.get("message", "")
 
-    connection = sqlite3.connect("users.db")
-    cursor = connection.cursor()
-
-    cursor.execute(
-        "SELECT free_trials FROM users WHERE username=?",
-        (get_jwt_identity(),)
-    )
-
-    user = cursor.fetchone()
-
-    if not user:
-        return jsonify({"message": "User not found"}), 404
-
-    free_trials = user[0]
-
-    if free_trials <= 0:
-        return jsonify({"message": "Free trial finished. Upgrade required."}), 403
-
     message_lower = message.lower()
 
-    keyword_detected = any(word in message_lower for word in scam_keywords)
+    keyword_detected = any(
+        word in message_lower for word in scam_keywords
+    )
 
     try:
         prediction = model.predict([message])[0]
@@ -111,17 +95,8 @@ def predict():
     if keyword_detected:
         prediction = "spam"
 
-    cursor.execute(
-        "UPDATE users SET free_trials = free_trials - 1 WHERE username=?",
-        (get_jwt_identity(),)
-    )
-
-    connection.commit()
-    connection.close()
-
     return jsonify({
-        "result": prediction,
-        "remaining_trials": free_trials - 1
+        "result": prediction
     })
 
 # -----------------------------------
@@ -149,17 +124,14 @@ def ocr():
 
     image = image.filter(ImageFilter.SHARPEN)
 
-    extracted_text = pytesseract.image_to_string(
-        image,
-        config="--oem 3 --psm 6"
-    )
+    text = pytesseract.image_to_string(image, config="--oem 3 --psm 6")
 
     return jsonify({
-        "text": extracted_text.strip()
+        "text": text.strip()
     })
 
 # -----------------------------------
-# IMAGE ANALYSIS (MAIN FEATURE)
+# IMAGE ANALYSIS
 # -----------------------------------
 
 @app.route("/analyze-image", methods=["POST"])
@@ -195,8 +167,6 @@ def analyze_image():
         if word in text_lower
     ]
 
-    keyword_detected = len(keyword_hits) > 0
-
     try:
         prediction = model.predict([extracted_text])[0]
     except:
@@ -208,14 +178,12 @@ def analyze_image():
         risk_score += 50
 
     risk_score += min(len(keyword_hits) * 5, 30)
-
     risk_score = min(risk_score, 100)
 
     return jsonify({
         "text": extracted_text.strip(),
         "result": prediction,
         "risk_score": risk_score,
-        "keyword_detected": keyword_detected,
         "keywords_found": keyword_hits
     })
 
@@ -227,12 +195,11 @@ def analyze_image():
 def signup():
 
     data = request.get_json()
-
     username = data["username"]
     password = data["password"]
 
-    connection = sqlite3.connect("users.db")
-    cursor = connection.cursor()
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
     cursor.execute(
         "SELECT * FROM users WHERE username=?",
@@ -243,12 +210,12 @@ def signup():
         return jsonify({"message": "User already exists"}), 400
 
     cursor.execute(
-        "INSERT INTO users (username, password, free_trials) VALUES (?, ?, ?)",
-        (username, password, 3)
+        "INSERT INTO users (username, password) VALUES (?, ?)",
+        (username, password)
     )
 
-    connection.commit()
-    connection.close()
+    conn.commit()
+    conn.close()
 
     return jsonify({"message": "Signup successful"})
 
@@ -260,12 +227,11 @@ def signup():
 def login():
 
     data = request.get_json()
-
     username = data["username"]
     password = data["password"]
 
-    connection = sqlite3.connect("users.db")
-    cursor = connection.cursor()
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
     cursor.execute(
         "SELECT * FROM users WHERE username=? AND password=?",
@@ -273,7 +239,7 @@ def login():
     )
 
     user = cursor.fetchone()
-    connection.close()
+    conn.close()
 
     if not user:
         return jsonify({"message": "Invalid credentials"}), 401
@@ -283,12 +249,15 @@ def login():
     return jsonify({"token": token})
 
 # -----------------------------------
-# RUN SERVER
+# RUN APP
 # -----------------------------------
 
 if __name__ == "__main__":
+    from database import init_db
+    init_db()
+
     app.run(
-        debug=True,
         host="0.0.0.0",
-        port=5000
+        port=5000,
+        debug=True
     )
