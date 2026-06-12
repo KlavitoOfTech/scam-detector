@@ -145,6 +145,6 @@ TrustScan empowers individuals, businesses, students, and organizations to brows
 
 ---
 
-## 🛡️ TrustScan AI
+## 🛡️ TrustScan
 
 Protecting people from scams, phishing attacks, fake websites, and online fraud through intelligent AI-powered security.
