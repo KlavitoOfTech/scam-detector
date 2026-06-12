@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 import "../styles/pasteText.css";
 
 function PasteText() {
@@ -80,9 +79,9 @@ function PasteText() {
 
   return (
 
-    <div className="container">
+    <div className="paste-container">
 
-      <div className="card">
+      <div className="paste-card">
 
         <h1>🛡 TrustScan</h1>
 
