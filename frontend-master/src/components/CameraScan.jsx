@@ -102,7 +102,9 @@ function CameraScan() {
 
       console.log("Response Status:", response.status);
       console.log("Response Body:", text);
-
+      
+      const data = JSON.parse(text);
+      
       if (
         data.msg ===
         "Token has expired"
