@@ -7,7 +7,7 @@ function CameraScan() {
 
   const API = process.env.REACT_APP_API_URL;
   console.log("API URL:", API);
-  
+
   const webcamRef = useRef(null);
 
   const [image, setImage] = useState(null);
@@ -98,8 +98,10 @@ function CameraScan() {
           }
         );
 
-      const data =
-        await response.json();
+      const text = await response.text();
+
+      console.log("Response Status:", response.status);
+      console.log("Response Body:", text);
 
       if (
         data.msg ===
