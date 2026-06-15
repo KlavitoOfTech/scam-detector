@@ -93,7 +93,7 @@ function Dashboard() {
 
       {/* HERO */}
 
-      <div className="hero">
+      <div className="dashboard-hero">
 
         <h1>
           Welcome to <span>TrustScan</span>
