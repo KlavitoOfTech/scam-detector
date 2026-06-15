@@ -37,21 +37,35 @@ function Dashboard() {
 
         <div className="brand">
           <span className="shield">🛡️</span>
+
           <div>
             <h2>
               TRUST<span>SCAN</span>
             </h2>
-            <p>Detect. Analyze. Stay Safe.</p>
+
+            <p>
+              Detect. Analyze. Stay Safe.
+            </p>
           </div>
         </div>
 
+        {/* Desktop Search */}
+
         <div className="search-box">
           <Search size={20} />
+
           <input
             type="text"
-            placeholder="Search scans (camera, screenshot, text...)"
+            placeholder="Search scans..."
           />
         </div>
+
+        {/* Mobile Search */}
+
+        <button className="mobile-search-btn">
+          <Search size={22} />
+        </button>
+
       </div>
 
       {/* SIDEBAR MENU */}
