@@ -3,6 +3,7 @@ import { useState } from "react";
 import "../styles/pasteText.css";
 
 function PasteText() {
+    const API = process.env.REACT_APP_API_URL;
 
   const [message, setMessage] = useState("");
   const [result, setResult] = useState("");
@@ -27,7 +28,7 @@ function PasteText() {
       setLoading(true);
 
       const response = await fetch(
-        "http://127.0.0.1:5000/predict",
+          `${API}/predict`,
         {
           method: "POST",
 
