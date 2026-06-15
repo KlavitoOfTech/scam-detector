@@ -61,11 +61,18 @@ function Resources() {
           <a href="/ai-detection" className="resource-card">
             <div className="resource-info">
               <h3>
-                <ShieldCheck size={18} className="resource-icon" />
-                AI Scam Detection
+                <ShieldCheck
+                  size={18}
+                  className="resource-icon"
+                />
+                Join the Community
               </h3>
-              <p>See how our AI identifies threats.</p>
+
+              <p>
+                Join discussions, get updates, and help build a safer internet.
+              </p>
             </div>
+
             <ArrowRight size={22} />
           </a>
 
