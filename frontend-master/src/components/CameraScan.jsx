@@ -6,7 +6,8 @@ import "../styles/cameraScan.css";
 function CameraScan() {
 
   const API = process.env.REACT_APP_API_URL;
-
+  console.log("API URL:", API);
+  
   const webcamRef = useRef(null);
 
   const [image, setImage] = useState(null);
@@ -261,14 +262,11 @@ function CameraScan() {
                 </p>
 
                 <p>
-                  <strong>
-                    Scam Keywords:
-                  </strong>{" "}
-                  {
-                    result.keyword_detected
-                      ? "Detected"
-                      : "Not Detected"
-                  }
+                  <strong>Scam Keywords:</strong>{" "}
+                  {result.keywords_found &&
+                  result.keywords_found.length > 0
+                    ? "Detected"
+                    : "Not Detected"}
                 </p>
 
                 <h4>
