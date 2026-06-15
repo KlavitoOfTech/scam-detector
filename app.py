@@ -167,9 +167,11 @@ def analyze_image():
         if word in text_lower
     ]
 
+    print("TEXT:", extracted_text)
     try:
         prediction = model.predict([extracted_text])[0]
-    except:
+    except Exception as e:
+        print("MODEL ERROR:", e)
         prediction = "unknown"
 
     risk_score = 20
