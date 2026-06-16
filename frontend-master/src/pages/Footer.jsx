@@ -1,4 +1,5 @@
 import "../styles/footer.css";
+import logo from "../assets/trustscan.png";
 
 function Footer() {
   return (
@@ -9,7 +10,12 @@ function Footer() {
         {/* BRAND */}
         <div className="footer-brand">
           <div className="footer-logo">
-            🛡 TrustScan
+            <img
+              src={logo}
+              alt="TrustScan Logo"
+              className="footer-logo-img"
+            />
+            TrustScan
           </div>
 
           <p>

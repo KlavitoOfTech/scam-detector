@@ -15,36 +15,50 @@
 .footer-container {
   max-width: 1200px;
   margin: auto;
-
   display: flex;
   justify-content: space-between;
   gap: 40px;
-
   flex-wrap: wrap;
 }
 
 /* BRAND SECTION */
-.footer-brand {
-  flex: 1;
-  min-width: 250px;
+.footer-brand{
+  min-width:250px;
+
+  display:flex;
+  flex-direction:column;
+  align-items: left;   /* centers horizontally */
+  justify-content:center;
+
+  text-align:center;
 }
 
-.footer-logo {
-  font-size: 22px;
-  font-weight: bold;
+.footer-logo{
+  display:flex;
+  align-items:center;   /* vertically aligns image and text */
+  justify-content:center;
 
-  margin-bottom: 12px;
+  gap:8px;
 
-  color: #ff4d4d;
+  font-size:28px;
+  font-weight:bold;
+  color:#ff4d4d;
 
-  text-shadow: 0 0 12px rgba(255, 77, 77, 0.3);
+  margin-bottom:12px;
 }
 
-.footer-brand p {
-  color: #bdbdbd;
-  line-height: 1.6;
-  font-size: 14px;
-  max-width: 300px;
+.footer-logo-img{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+}
+
+.footer-brand p{
+  color:#bdbdbd;
+  line-height:1.6;
+  font-size:14px;
+  max-width:300px;
+  margin:0 auto;
 }
 
 /* LINKS */
