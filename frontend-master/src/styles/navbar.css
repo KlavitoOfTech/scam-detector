@@ -26,12 +26,10 @@
 .logo{
   display:flex;
   align-items:center;
-  gap:6px;
-
+  gap:2px;
   font-size:28px;
   font-weight:bold;
   color:#ff4d4d;
-
   flex:1; /* pushes hamburger to far right */
 }
 
