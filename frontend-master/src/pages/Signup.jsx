@@ -52,7 +52,7 @@ function Signup() {
         </p>
 
         <div className="form-group">
-          <label>Username</label>
+          <label>Email</label>
 
           <input
             type="text"
