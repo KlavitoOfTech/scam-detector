@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import logo from "../assets/trustscan.png";
+import Footer from "./Footer";
 
 import {
   Camera,
@@ -35,29 +37,26 @@ function Dashboard() {
           <Menu size={30} />
         </button>
 
-        <div className="brand">
-          <span className="shield">🛡️</span>
-
-          <div>
-            <h2>
-              TRUST<span>SCAN</span>
-            </h2>
-
-            <p>
-              Detect. Analyze. Stay Safe.
-            </p>
+        <div className="dashboard-brand">
+          <div className="dashboard-logo">
+            <img
+              src={logo}
+              alt="TrustScan Logo"
+              className="dashboard-logo-img"
+            />
+            TrustScan
           </div>
         </div>
 
         {/* Desktop Search */}
 
         <div className="search-box">
-          <Search size={20} />
 
           <input
             type="text"
             placeholder="Search scans..."
           />
+          <Search size={24} />
         </div>
 
         {/* Mobile Search */}
@@ -243,7 +242,7 @@ function Dashboard() {
         </button>
 
       </div>
-
+      <Footer />
     </div>
   );
 }
