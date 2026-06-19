@@ -105,7 +105,7 @@ def get_db_connection():
 # -----------------------------------
 
 @app.route("/predict", methods=["POST"])
-@jwt_required()
+#@jwt_required()
 def predict():
 
     data = request.get_json()
@@ -173,7 +173,7 @@ def ocr():
 # -----------------------------------
 
 @app.route("/analyze-image", methods=["POST"])
-@jwt_required()
+#@jwt_required()
 def analyze_image():
 
     try:
@@ -256,7 +256,7 @@ def analyze_image():
 # -----------------------------------
 
 @app.route("/analyze-url", methods=["POST"])
-@jwt_required()
+#@jwt_required()
 def analyze_url():
 
     data = request.get_json()
