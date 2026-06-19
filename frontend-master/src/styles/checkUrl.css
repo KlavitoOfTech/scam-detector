@@ -1,0 +1,263 @@
+/* =========================
+   CHECK URL PAGE
+========================= */
+
+.url-page{
+  min-height:100vh;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  padding:30px;
+
+  color:white;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.url-card{
+
+  width:100%;
+  max-width:800px;
+
+  padding:40px;
+
+  border-radius:28px;
+
+  background:linear-gradient(
+    180deg,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.03)
+  );
+
+  border:1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(20px);
+
+  box-shadow:
+  0 20px 50px rgba(0,0,0,.35);
+
+  text-align:center;
+}
+
+.url-card h1{
+  font-size:48px;
+  margin-bottom:15px;
+
+  background:linear-gradient(
+    135deg,
+    #ffffff,
+    #ff4d4d
+  );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.url-card p{
+  color:#cfcfcf;
+  line-height:1.7;
+  margin-bottom:30px;
+}
+
+/* =========================
+   INPUT
+========================= */
+
+.url-card input{
+
+  width:100%;
+
+  height:65px;
+
+  border:none;
+  outline:none;
+
+  border-radius:18px;
+
+  padding:0 20px;
+
+  background:rgba(255,255,255,.05);
+
+  border:1px solid rgba(255,77,77,.15);
+
+  color:white;
+
+  font-size:16px;
+
+  margin-bottom:25px;
+}
+
+.url-card input::placeholder{
+  color:#9f9f9f;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.url-card button{
+
+  width:100%;
+
+  height:60px;
+
+  border:none;
+  cursor:pointer;
+
+  border-radius:18px;
+
+  background:#ff4d4d;
+
+  color:white;
+
+  font-size:17px;
+  font-weight:600;
+
+  transition:.3s ease;
+}
+
+.url-card button:hover{
+
+  background:#ff6666;
+
+  box-shadow:
+  0 0 25px rgba(255,77,77,.35);
+
+  transform:translateY(-2px);
+}
+
+.url-card button:disabled{
+
+  opacity:.6;
+  cursor:not-allowed;
+
+  transform:none;
+}
+
+/* =========================
+   RESULT BOX
+========================= */
+
+.scan-result{
+
+  margin-top:30px;
+
+  padding:25px;
+
+  border-radius:22px;
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  text-align:left;
+}
+
+.scan-result h3{
+
+  margin-bottom:20px;
+
+  color:#ff4d4d;
+  font-size:24px;
+}
+
+/* =========================
+   RESULT ROWS
+========================= */
+
+.result-row{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:14px 0;
+
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.result-row:last-child{
+  border-bottom:none;
+}
+
+.result-row span{
+  color:#cfcfcf;
+}
+
+.result-row strong{
+  color:white;
+}
+
+/* =========================
+   SAFE & SPAM COLORS
+========================= */
+
+.safe{
+  color:#39d98a;
+}
+
+.spam{
+  color:#ff4d4d;
+}
+
+/* =========================
+   REASON BOX
+========================= */
+
+.reason-box{
+
+  margin-top:20px;
+
+  padding:18px;
+
+  border-radius:16px;
+
+  background:rgba(255,77,77,.08);
+
+  border:1px solid rgba(255,77,77,.15);
+
+  color:#e5e5e5;
+
+  line-height:1.7;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+  .url-page{
+    padding:20px;
+  }
+
+  .url-card{
+    padding:25px;
+  }
+
+  .url-card h1{
+    font-size:34px;
+  }
+
+  .url-card p{
+    font-size:15px;
+  }
+
+  .url-card input{
+    height:58px;
+  }
+
+  .url-card button{
+    height:56px;
+  }
+
+  .result-row{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
+  }
+}
