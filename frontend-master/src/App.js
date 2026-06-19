@@ -13,7 +13,7 @@ import CameraScan from "./components/CameraScan";
 import Screenshot from "./components/Screenshot";
 import PasteText from "./components/PasteText";
 import CheckUrl from "./components/CheckUrl";
-import QRCode from "./components/QRCode";
+import QrCode from "./components/QRCode";
 import SearchName from "./components/SearchName";
 
 import "./styles/global.css";
@@ -76,7 +76,7 @@ function App() {
 
         <Route
           path="/qr-code"
-          element={<QRCode />}
+          element={<QrCode />}
         />
 
         <Route
