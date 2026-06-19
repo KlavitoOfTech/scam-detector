@@ -12,7 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import CameraScan from "./components/CameraScan";
 import Screenshot from "./components/Screenshot";
 import PasteText from "./components/PasteText";
-import CheckURL from "./components/CheckURL";
+import CheckUrl from "./components/CheckUrl";
 import QRCode from "./components/QRCode";
 import SearchName from "./components/SearchName";
 
@@ -71,7 +71,7 @@ function App() {
 
         <Route
           path="/check-url"
-          element={<CheckURL />}
+          element={<CheckUrl />}
         />
 
         <Route
