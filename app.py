@@ -252,6 +252,69 @@ def analyze_image():
         }), 500
 
 # -----------------------------------
+# URL ANALYSIS
+# -----------------------------------
+
+@app.route("/analyze-url", methods=["POST"])
+@jwt_required()
+def analyze_url():
+
+    data = request.get_json()
+
+    url = data.get("url", "").lower()
+
+    suspicious_keywords = [
+        "login",
+        "verify",
+        "free",
+        "claim",
+        "gift",
+        "airdrop",
+        "crypto",
+        "wallet",
+        "bonus",
+        "reward",
+        "bank"
+    ]
+
+    hits = [
+        word
+        for word in suspicious_keywords
+        if word in url
+    ]
+
+    risk_score = len(hits) * 15
+
+    # extra checks
+    if "http://" in url:
+        risk_score += 20
+
+    if "@" in url:
+        risk_score += 20
+
+    if len(url.split(".")) > 3:
+        risk_score += 15
+
+    risk_score = min(risk_score, 100)
+
+    result = (
+        "spam"
+        if risk_score >= 40
+        else "safe"
+    )
+
+    return jsonify({
+        "url": url,
+        "result": result,
+        "risk_score": risk_score,
+        "keywords_found": hits,
+        "reason":
+            "Potential phishing indicators detected"
+            if result == "spam"
+            else "No major phishing indicators detected"
+    })
+
+# -----------------------------------
 # SIGNUP
 # -----------------------------------
 
