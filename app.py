@@ -4,6 +4,8 @@ import sqlite3
 import joblib
 import os
 import requests
+from PIL import Image
+from pyzbar.pyzbar import decode
 
 from flask_jwt_extended import (
     JWTManager,
@@ -314,6 +316,102 @@ def analyze_url():
             else "No major phishing indicators detected"
     })
 
+# -----------------------------------
+# QR ANALYSIS
+# -----------------------------------
+
+@app.route("/analyze-qr", methods=["POST"])
+def analyze_qr():
+
+    try:
+
+        if "image" not in request.files:
+
+            return jsonify({
+                "message": "No QR image uploaded"
+            }), 400
+
+        image_file = request.files["image"]
+
+        image = Image.open(image_file)
+
+        qr_codes = decode(image)
+
+        if not qr_codes:
+
+            return jsonify({
+                "result": "safe",
+                "risk_score": 0,
+                "reason": "No QR code detected"
+            })
+
+        qr_text = qr_codes[0].data.decode("utf-8")
+
+        suspicious_keywords = [
+            "login",
+            "verify",
+            "free",
+            "claim",
+            "gift",
+            "airdrop",
+            "crypto",
+            "wallet",
+            "bonus",
+            "reward",
+            "bank"
+        ]
+
+        hits = [
+            word
+            for word in suspicious_keywords
+            if word in qr_text.lower()
+        ]
+
+        risk_score = len(hits) * 15
+
+        if "http://" in qr_text:
+            risk_score += 20
+
+        if "@" in qr_text:
+            risk_score += 20
+
+        if len(qr_text.split(".")) > 3:
+            risk_score += 15
+
+        risk_score = min(
+            risk_score,
+            100
+        )
+
+        result = (
+            "spam"
+            if risk_score >= 40
+            else "safe"
+        )
+
+        return jsonify({
+
+            "qr_content": qr_text,
+
+            "result": result,
+
+            "risk_score": risk_score,
+
+            "keywords_found": hits,
+
+            "reason":
+                "Potential phishing QR detected"
+                if result == "spam"
+                else "No major threats detected"
+
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "error": str(e)
+        }), 500
+        
 # -----------------------------------
 # SIGNUP
 # -----------------------------------
