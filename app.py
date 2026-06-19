@@ -4,8 +4,9 @@ import sqlite3
 import joblib
 import os
 import requests
+import cv2
+import numpy as np
 from PIL import Image
-from pyzbar.pyzbar import decode
 
 from flask_jwt_extended import (
     JWTManager,
@@ -335,17 +336,21 @@ def analyze_qr():
 
         image = Image.open(image_file)
 
-        qr_codes = decode(image)
+        image_np = np.array(image)
 
-        if not qr_codes:
+        detector = cv2.QRCodeDetector()
+
+        qr_text, points, _ = detector.detectAndDecode(
+            image_np
+        )
+
+        if not qr_text:
 
             return jsonify({
                 "result": "safe",
                 "risk_score": 0,
                 "reason": "No QR code detected"
             })
-
-        qr_text = qr_codes[0].data.decode("utf-8")
 
         suspicious_keywords = [
             "login",
@@ -362,9 +367,13 @@ def analyze_qr():
         ]
 
         hits = [
+
             word
+
             for word in suspicious_keywords
+
             if word in qr_text.lower()
+
         ]
 
         risk_score = len(hits) * 15
@@ -391,7 +400,7 @@ def analyze_qr():
 
         return jsonify({
 
-            "qr_content": qr_text,
+            "url": qr_text,
 
             "result": result,
 
@@ -407,6 +416,8 @@ def analyze_qr():
         })
 
     except Exception as e:
+
+        print("QR ERROR:", str(e))
 
         return jsonify({
             "error": str(e)
