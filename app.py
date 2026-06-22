@@ -668,12 +668,29 @@ def search_org():
             "error": str(e)
         }), 500
 
-@app.route("/test-search", methods=["POST"])
-def test_search():
-    return jsonify({
-        "message": "Search route working"
-    })
-    
+@app.route("/debug-serp")
+def debug_serp():
+
+    try:
+
+        params = {
+            "engine": "google",
+            "q": "UNICEF",
+            "api_key": SERP_API_KEY
+        }
+
+        search = GoogleSearch(params)
+
+        results = search.get_dict()
+
+        return jsonify(results)
+
+    except Exception as e:
+
+        return jsonify({
+            "error": str(e)
+        }), 500
+
 # -----------------------------------
 # SIGNUP
 # -----------------------------------
