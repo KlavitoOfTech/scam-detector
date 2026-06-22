@@ -28,9 +28,7 @@ from flask_jwt_extended import (
 
 app = Flask(__name__)
 
-CORS(app, resources={
-    r"/*": {"origins": "*"}
-})
+CORS(app)
 
 app.config["JWT_SECRET_KEY"] = "supersecretkey_123456789_secure"
 
@@ -579,17 +577,18 @@ def calculate_trust_score(
     return min(score, 100)
 
 
-@app.route("/search-org", methods=["POST"])
+@app.route("/search-org", methods=["POST", "OPTIONS"])
 def search_org():
 
-    try:
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"}), 200
 
+    try:
         data = request.get_json()
 
         name = data.get("name", "")
 
         if not name:
-
             return jsonify({
                 "error": "Organization name required"
             }), 400
