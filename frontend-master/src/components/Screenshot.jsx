@@ -84,6 +84,12 @@ function Screenshot() {
           <div>
             <h3>Upload Screenshot</h3>
             <p>Click here to choose an image</p>
+            <p className="disclaimer-text">
+              By submitting data above, you are agreeing to our <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Service and Privacy Notice</a>,
+              and to the sharing of your Sample submission with the security community. Please do not submit
+              any personal information; we are not responsible for the contents of your submission.
+              <a href="/disclaimer" target="_blank" rel="noopener noreferrer">Learn more.</a>
+            </p>            
           </div>
         </label>
 

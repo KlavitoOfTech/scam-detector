@@ -107,6 +107,7 @@
 
 .result-card h2{
   margin-bottom:15px;
+  color: red;
 }
 
 .result-card p{
@@ -143,3 +144,4 @@
     font-size:16px;
   }
 }
+
