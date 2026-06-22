@@ -7,6 +7,14 @@ import requests
 import cv2
 import numpy as np
 from PIL import Image
+from serpapi import GoogleSearch
+from urllib.parse import urlparse
+from bs4 import BeautifulSoup
+import whois
+from datetime import datetime
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from flask_jwt_extended import (
     JWTManager,
@@ -33,6 +41,7 @@ jwt = JWTManager(app)
 # -----------------------------------
 
 OCR_API_KEY = os.getenv("OCR_API_KEY")
+SERP_API_KEY = os.getenv("SERP_API_KEY")
 
 def extract_text_from_image(image_file):
 
@@ -422,7 +431,244 @@ def analyze_qr():
         return jsonify({
             "error": str(e)
         }), 500
-        
+
+# -----------------------------------
+# ORGANIZATION SEARCH
+# -----------------------------------
+
+def find_organization_website(name):
+
+    try:
+
+        params = {
+            "engine": "google",
+            "q": name,
+            "api_key": SERP_API_KEY
+        }
+
+        search = GoogleSearch(params)
+
+        results = search.get_dict()
+
+        if "organic_results" in results:
+
+            first = results["organic_results"][0]
+
+            return first.get("link")
+
+    except Exception as e:
+
+        print("SEARCH ERROR:", str(e))
+
+    return None
+
+
+def analyze_website(url):
+
+    analysis = {
+        "https": False,
+        "reachable": False,
+        "social_links": 0,
+        "contact_page": False
+    }
+
+    try:
+
+        response = requests.get(
+            url,
+            timeout=10,
+            headers={
+                "User-Agent":
+                "Mozilla/5.0"
+            }
+        )
+
+        analysis["reachable"] = True
+
+        if url.startswith("https://"):
+            analysis["https"] = True
+
+        soup = BeautifulSoup(
+            response.text,
+            "html.parser"
+        )
+
+        links = [
+            a.get("href", "")
+            for a in soup.find_all("a")
+        ]
+
+        social_domains = [
+            "facebook",
+            "twitter",
+            "instagram",
+            "linkedin",
+            "youtube"
+        ]
+
+        analysis["social_links"] = sum(
+            any(
+                social in link.lower()
+                for social in social_domains
+            )
+            for link in links
+        )
+
+        analysis["contact_page"] = any(
+            "contact" in link.lower()
+            for link in links
+        )
+
+    except Exception as e:
+
+        print("ANALYSIS ERROR:", str(e))
+
+    return analysis
+
+
+def get_domain_age(url):
+
+    try:
+
+        domain = urlparse(url).netloc
+
+        info = whois.whois(domain)
+
+        created = info.creation_date
+
+        if isinstance(created, list):
+            created = created[0]
+
+        age_days = (
+            datetime.now() - created
+        ).days
+
+        return age_days
+
+    except Exception as e:
+
+        print("WHOIS ERROR:", str(e))
+
+        return None
+
+
+def calculate_trust_score(
+    website_data,
+    domain_age
+):
+
+    score = 0
+
+    if website_data["https"]:
+        score += 20
+
+    if website_data["reachable"]:
+        score += 20
+
+    if website_data["contact_page"]:
+        score += 20
+
+    score += min(
+        website_data["social_links"] * 5,
+        20
+    )
+
+    if domain_age and domain_age > 365:
+        score += 20
+
+    return min(score, 100)
+
+
+@app.route("/search-org", methods=["POST"])
+def search_org():
+
+    try:
+
+        data = request.get_json()
+
+        name = data.get("name", "")
+
+        if not name:
+
+            return jsonify({
+                "error": "Organization name required"
+            }), 400
+
+        website = find_organization_website(
+            name
+        )
+
+        if not website:
+
+            return jsonify({
+                "organization": name,
+                "risk": "Unknown",
+                "message":
+                "No website found."
+            })
+
+        website_data = analyze_website(
+            website
+        )
+
+        domain_age = get_domain_age(
+            website
+        )
+
+        trust_score = calculate_trust_score(
+            website_data,
+            domain_age
+        )
+
+        if trust_score >= 75:
+            risk = "Low"
+        elif trust_score >= 40:
+            risk = "Medium"
+        else:
+            risk = "High"
+
+        return jsonify({
+
+            "organization": name,
+
+            "website": website,
+
+            "trust_score": trust_score,
+
+            "risk": risk,
+
+            "checks": {
+
+                "https":
+                website_data["https"],
+
+                "reachable":
+                website_data["reachable"],
+
+                "contact_page":
+                website_data["contact_page"],
+
+                "social_links":
+                website_data["social_links"],
+
+                "domain_age_days":
+                domain_age
+
+            },
+
+            "reason":
+                f"The website scored {trust_score}/100 based on security, accessibility, domain age and online presence."
+
+        })
+
+    except Exception as e:
+
+        print("SEARCH ORG ERROR:", str(e))
+
+        return jsonify({
+            "error": str(e)
+        }), 500
+
 # -----------------------------------
 # SIGNUP
 # -----------------------------------
