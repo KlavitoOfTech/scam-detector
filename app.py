@@ -668,6 +668,12 @@ def search_org():
             "error": str(e)
         }), 500
 
+@app.route("/test-search", methods=["POST"])
+def test_search():
+    return jsonify({
+        "message": "Search route working"
+    })
+    
 # -----------------------------------
 # SIGNUP
 # -----------------------------------
