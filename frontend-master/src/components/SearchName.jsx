@@ -19,7 +19,7 @@ function SearchName() {
       console.log("API URL:", API);
       console.log("Request URL:", `${API}/search-org`);
       const response = await fetch(
-        `${API}/search-org`,
+        `${API}/test-search`,
         {
           method: "POST",
           headers: {
