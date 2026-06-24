@@ -3,6 +3,7 @@ import {
   Eye,
   EyeOff
 } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
 import logo from "../assets/trustscan.png";
 
 import "../styles/auth.css";
@@ -164,6 +165,7 @@ function Login() {
         </div>
 
         <button className="google-btn">
+          <FcGoogle size={20} />
           Continue with Google
         </button>
 
