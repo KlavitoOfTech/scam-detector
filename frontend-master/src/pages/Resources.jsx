@@ -94,20 +94,19 @@ function Resources() {
           />
 
           <div className="video-card card-left">
-            <h4>Verify</h4>
-            <p>KYC and risk checks</p>
+            <h4>Detect</h4>
+            <p>Identify phishing threats</p>
           </div>
 
           <div className="video-card card-center">
-            <h4>Approve</h4>
-            <p>User consent workflow</p>
+            <h4>Analyze</h4>
+            <p>Check links and messages</p>
           </div>
 
           <div className="video-card card-right">
-            <h4>Prove</h4>
-            <p>Audit history records</p>
+            <h4>Protect</h4>
+            <p>User safety and security</p>
           </div>
-
           <div className="preview-badge">
             Platform Preview
           </div>
