@@ -181,6 +181,11 @@
   opacity:.9;
 }
 
+.login-btn:disabled{
+  opacity:0.7;
+  cursor:not-allowed;
+}
+
 .divider{
 
   text-align:center;

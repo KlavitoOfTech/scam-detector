@@ -14,8 +14,14 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+
+    if (loading) return;
+
+    setLoading(true);
+
     try {
 
       const response = await fetch(
@@ -55,6 +61,10 @@ function Login() {
       console.error(error);
 
       alert("Login failed");
+
+    } finally {
+
+      setLoading(false);
 
     }
   };
@@ -144,12 +154,13 @@ function Login() {
         <button
           className="login-btn"
           onClick={handleLogin}
+          disabled={loading}
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <div className="divider">
-          OR CONTINUE WITH
+          OR 
         </div>
 
         <button className="google-btn">
