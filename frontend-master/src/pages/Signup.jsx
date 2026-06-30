@@ -23,7 +23,14 @@ function Signup() {
 
       const data = await response.json();
 
-      alert(data.message);
+      if (response.ok) {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("username", username);
+
+        window.location.href = "/dashboard";
+      } else {
+        alert(data.message || "Signup failed");
+      }
 
       window.location.href = "/";
     } catch (error) {

@@ -12,6 +12,7 @@ function Login() {
 
   const API = process.env.REACT_APP_API_URL;
   console.log("API URL:", process.env.REACT_APP_API_URL);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -41,6 +42,8 @@ function Login() {
 
       const data = await response.json();
 
+      // Token authentication is currently disabled
+      /*
       if (data.token) {
 
         localStorage.setItem(
@@ -55,6 +58,17 @@ function Login() {
 
         alert(data.message);
 
+      }
+      */
+
+      // Redirect directly after a successful login response
+      if (response.ok) {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("username", username);
+
+        window.location.href = "/dashboard";
+      } else {
+        alert(data.message || "Login failed");
       }
 
     } catch (error) {
@@ -161,7 +175,7 @@ function Login() {
         </button>
 
         <div className="divider">
-          OR 
+          OR
         </div>
 
         <button className="google-btn">
