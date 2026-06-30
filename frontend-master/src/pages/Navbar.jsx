@@ -1,10 +1,18 @@
 import { useState } from "react";
 import logo from "../assets/trustscan.png";
-import { LogIn, Menu, X } from "lucide-react";
+import {
+  LogIn,
+  LayoutDashboard,
+  Menu,
+  X
+} from "lucide-react";
 
 function Navbar() {
 
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const isLoggedIn =
+    localStorage.getItem("isLoggedIn") === "true";
 
   return (
     <nav className="navbar">
@@ -27,13 +35,23 @@ function Navbar() {
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
 
-        <button
-          className="nav-btn"
-          onClick={() => window.location.href="/login"}
-        >
-          <LogIn size={18} />
-          Login
-        </button>
+        {isLoggedIn ? (
+          <button
+            className="nav-btn"
+            onClick={() => window.location.href = "/dashboard"}
+          >
+            <LayoutDashboard size={18} />
+            Dashboard
+          </button>
+        ) : (
+          <button
+            className="nav-btn"
+            onClick={() => window.location.href = "/login"}
+          >
+            <LogIn size={18} />
+            Login
+          </button>
+        )}
 
       </div>
 
@@ -68,13 +86,23 @@ function Navbar() {
           Contact
         </a>
 
-        <button
-          className="mobile-login-btn"
-          onClick={() => window.location.href="/login"}
-        >
-          <LogIn size={18} />
-          Login
-        </button>
+        {isLoggedIn ? (
+          <button
+            className="mobile-login-btn"
+            onClick={() => window.location.href = "/dashboard"}
+          >
+            <LayoutDashboard size={18} />
+            Dashboard
+          </button>
+        ) : (
+          <button
+            className="mobile-login-btn"
+            onClick={() => window.location.href = "/login"}
+          >
+            <LogIn size={18} />
+            Login
+          </button>
+        )}
 
       </div>
 
