@@ -159,7 +159,7 @@ def predict():
 # -----------------------------------
 
 @app.route("/ocr", methods=["POST"])
-@jwt_required()
+# @jwt_required()
 def ocr():
 
     if "image" not in request.files:
