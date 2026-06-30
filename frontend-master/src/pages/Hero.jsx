@@ -5,6 +5,10 @@ import {
 } from "lucide-react";
 
 function Hero() {
+
+  const isLoggedIn =
+    localStorage.getItem("isLoggedIn") === "true";
+
   return (
     <section className="hero">
 
@@ -29,7 +33,11 @@ function Hero() {
 
           <button
             className="hero-btn"
-            onClick={() => window.location.href="/signup"}
+            onClick={() =>
+              window.location.href = isLoggedIn
+                ? "/dashboard"
+                : "/signup"
+            }
           >
             Get Started
             <ArrowRight size={20} />
@@ -37,7 +45,11 @@ function Hero() {
 
           <button
             className="secondary-btn"
-            onClick={() => window.location.href="/login"}
+            onClick={() =>
+              window.location.href = isLoggedIn
+                ? "/dashboard"
+                : "/login"
+            }
           >
             Open Dashboard
             <LayoutDashboard size={20} />
