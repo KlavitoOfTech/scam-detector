@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import Webcam from "react-webcam";
-import imageCompression from "browser-image-compression";
 
 import "../styles/cameraScan.css";
 
@@ -67,25 +66,18 @@ function CameraScan() {
 
       setLoading(true);
 
-      const imageFile = dataURLtoFile(
-        image,
-        "scan.jpg"
-      );
+      const imageFile =
+        dataURLtoFile(
+          image,
+          "scan.jpg"
+        );
 
-      const compressedFile = await imageCompression(
-        imageFile,
-        {
-          maxSizeMB: 0.5,
-          maxWidthOrHeight: 1200,
-          useWebWorker: true,
-        }
-      );
-
-      const formData = new FormData();
+      const formData =
+        new FormData();
 
       formData.append(
         "image",
-        compressedFile
+        imageFile
       );
 
       const response =
@@ -102,14 +94,28 @@ function CameraScan() {
 
       console.log("Response Status:", response.status);
       console.log("Response Body:", text);
+      
+      const data = JSON.parse(text);
+      
+      if (
+        data.msg ===
+        "Token has expired"
+      ) {
 
-      if (!response.ok) {
-        alert("Server Error");
+        alert(
+          "Session expired. Please login again."
+        );
+
+        localStorage.removeItem(
+          "token"
+        );
+
+        window.location.href =
+          "/login";
+
         return;
       }
 
-      const data = JSON.parse(text);
-      
       setResult(data);
 
     }

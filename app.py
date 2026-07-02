@@ -47,29 +47,21 @@ def extract_text_from_image(image_file):
         "https://api.ocr.space/parse/image",
         files={
             "file": (
-                image_file.filename or "scan.png",
+                image_file.filename,
                 image_file.stream,
-                image_file.content_type or "image/png"
+                image_file.content_type
             )
         },
         data={
             "apikey": OCR_API_KEY,
             "language": "eng",
-            "filetype": "PNG",
             "isOverlayRequired": False
-        },
-        timeout=60
+        }
     )
 
     result = response.json()
 
-    print(result)
-
-    if "error" in result:
-        raise Exception(result["error"])
-
-    if result.get("IsErroredOnProcessing"):
-        raise Exception(result.get("ErrorMessage"))
+    print("OCR RESPONSE:", result)
 
     if result.get("ParsedResults"):
         return result["ParsedResults"][0].get(
