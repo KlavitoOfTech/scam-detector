@@ -57,7 +57,7 @@ def extract_text_from_image(image_file):
             "language": "eng",
             "isOverlayRequired": False
         },
-        timeout=20
+        timeout=1200
     )
 
     result = response.json()
