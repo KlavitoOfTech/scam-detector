@@ -47,9 +47,9 @@ def extract_text_from_image(image_file):
         "https://api.ocr.space/parse/image",
         files={
             "file": (
-                image_file.filename or "scan.jpg",
+                image_file.filename or "scan.png",
                 image_file.stream,
-                image_file.content_type or "image/jpeg"
+                image_file.content_type or "image/png"
             )
         },
         data={
@@ -58,7 +58,7 @@ def extract_text_from_image(image_file):
             "filetype": "PNG",
             "isOverlayRequired": False
         },
-        timeout=20
+        timeout=60
     )
 
     result = response.json()
