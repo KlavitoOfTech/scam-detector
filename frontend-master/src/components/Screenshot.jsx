@@ -15,12 +15,6 @@ function Screenshot() {
       return;
     }
 
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      alert("You are not logged in. Please login again.");
-      return;
-    }
 
     try {
       setLoading(true);
@@ -32,9 +26,6 @@ function Screenshot() {
         `${API}/analyze-image`,
         {
           method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
           body: formData
         }
       );
