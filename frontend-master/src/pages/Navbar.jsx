@@ -103,7 +103,6 @@ function Navbar() {
             Login
           </button>
         )}
-
       </div>
 
     </nav>
