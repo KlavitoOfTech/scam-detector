@@ -62,12 +62,7 @@ def extract_text_from_image(image_file):
 
     result = response.json()
 
-    if response.status_code != 200:
-        return ""
-
-    if result.get("IsErroredOnProcessing"):
-        print(result)
-        return ""
+    print("OCR RESPONSE:", result)
 
     if result.get("ParsedResults"):
         return result["ParsedResults"][0].get(
@@ -206,15 +201,6 @@ def analyze_image():
             image_file
         )
 
-        if not extracted_text.strip():
-            return jsonify({
-                "result": "unknown",
-                "risk_score": 0,
-                "keywords_found": [],
-                "text": "",
-                "message": "No readable text found in image."
-            })
-            
         print(
             "TEXT:",
             extracted_text
