@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import Webcam from "react-webcam";
+import imageCompression from "browser-image-compression";
 
 import "../styles/cameraScan.css";
 
@@ -66,21 +67,25 @@ function CameraScan() {
 
       setLoading(true);
 
-      const token =
-        localStorage.getItem("token");
+      const imageFile = dataURLtoFile(
+        image,
+        "scan.jpg"
+      );
 
-      const imageFile =
-        dataURLtoFile(
-          image,
-          "scan.jpg"
-        );
+      const compressedFile = await imageCompression(
+        imageFile,
+        {
+          maxSizeMB: 0.5,
+          maxWidthOrHeight: 1200,
+          useWebWorker: true,
+        }
+      );
 
-      const formData =
-        new FormData();
+      const formData = new FormData();
 
       formData.append(
         "image",
-        imageFile
+        compressedFile
       );
 
       const response =
@@ -88,11 +93,6 @@ function CameraScan() {
           `${API}/analyze-image`,
           {
             method: "POST",
-
-            headers: {
-              Authorization:
-                `Bearer ${token}`
-            },
 
             body: formData
           }
@@ -102,28 +102,14 @@ function CameraScan() {
 
       console.log("Response Status:", response.status);
       console.log("Response Body:", text);
-      
-      const data = JSON.parse(text);
-      
-      if (
-        data.msg ===
-        "Token has expired"
-      ) {
 
-        alert(
-          "Session expired. Please login again."
-        );
-
-        localStorage.removeItem(
-          "token"
-        );
-
-        window.location.href =
-          "/login";
-
+      if (!response.ok) {
+        alert("Server Error");
         return;
       }
 
+      const data = JSON.parse(text);
+      
       setResult(data);
 
     }

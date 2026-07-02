@@ -56,12 +56,18 @@ def extract_text_from_image(image_file):
             "apikey": OCR_API_KEY,
             "language": "eng",
             "isOverlayRequired": False
-        }
+        },
+        timeout=20
     )
 
     result = response.json()
 
-    print("OCR RESPONSE:", result)
+    if response.status_code != 200:
+        return ""
+
+    if result.get("IsErroredOnProcessing"):
+        print(result)
+        return ""
 
     if result.get("ParsedResults"):
         return result["ParsedResults"][0].get(
@@ -200,6 +206,15 @@ def analyze_image():
             image_file
         )
 
+        if not extracted_text.strip():
+            return jsonify({
+                "result": "unknown",
+                "risk_score": 0,
+                "keywords_found": [],
+                "text": "",
+                "message": "No readable text found in image."
+            })
+            
         print(
             "TEXT:",
             extracted_text
