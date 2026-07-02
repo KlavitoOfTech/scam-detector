@@ -20,11 +20,24 @@ function Screenshot() {
       setLoading(true);
 
       // Compress the image before uploading
-      const compressedFile = await imageCompression(file, {
+      const compressedBlob = await imageCompression(file, {
         maxSizeMB: 0.3,
         maxWidthOrHeight: 1000,
         useWebWorker: true,
       });
+
+      const compressedFile = new File(
+        [compressedBlob],
+        "scan.png",
+        {
+          type: "image/png"
+        }
+      );
+
+      console.log("Compressed File:", compressedFile);
+      console.log("Type:", compressedFile.type);
+      console.log("Name:", compressedFile.name);
+      console.log("Size:", compressedFile.size);
 
       const formData = new FormData();
       formData.append("image", compressedFile);

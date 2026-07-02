@@ -47,14 +47,15 @@ def extract_text_from_image(image_file):
         "https://api.ocr.space/parse/image",
         files={
             "file": (
-                image_file.filename,
+                image_file.filename or "scan.jpg",
                 image_file.stream,
-                image_file.content_type
+                image_file.content_type or "image/jpeg"
             )
         },
         data={
             "apikey": OCR_API_KEY,
             "language": "eng",
+            "filetype": "PNG",
             "isOverlayRequired": False
         },
         timeout=20
