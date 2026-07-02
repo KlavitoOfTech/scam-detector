@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/screenshotScan.css";
+import imageCompression from "browser-image-compression";
 
 function Screenshot() {
 
@@ -15,12 +16,18 @@ function Screenshot() {
       return;
     }
 
-
     try {
       setLoading(true);
 
+      // Compress the image before uploading
+      const compressedFile = await imageCompression(file, {
+        maxSizeMB: 0.3,
+        maxWidthOrHeight: 1000,
+        useWebWorker: true,
+      });
+
       const formData = new FormData();
-      formData.append("image", file);
+      formData.append("image", compressedFile);
 
       const response = await fetch(
         `${API}/analyze-image`,

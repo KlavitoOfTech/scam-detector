@@ -57,12 +57,18 @@ def extract_text_from_image(image_file):
             "language": "eng",
             "isOverlayRequired": False
         },
-        timeout=1200
+        timeout=20
     )
 
     result = response.json()
 
-    print("OCR RESPONSE:", result)
+    print(result)
+
+    if "error" in result:
+        raise Exception(result["error"])
+
+    if result.get("IsErroredOnProcessing"):
+        raise Exception(result.get("ErrorMessage"))
 
     if result.get("ParsedResults"):
         return result["ParsedResults"][0].get(
