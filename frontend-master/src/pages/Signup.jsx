@@ -24,15 +24,14 @@ function Signup() {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("username", username);
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("username", username);
 
         window.location.href = "/dashboard";
       } else {
         alert(data.message || "Signup failed");
       }
 
-      window.location.href = "/";
     } catch (error) {
       console.error(error);
       alert("Signup failed");

@@ -42,11 +42,9 @@ function Login() {
 
       const data = await response.json();
 
-      // Token authentication is currently disabled
-      /*
       if (data.token) {
 
-        localStorage.setItem(
+        sessionStorage.setItem(
           "token",
           data.token
         );
@@ -59,12 +57,10 @@ function Login() {
         alert(data.message);
 
       }
-      */
 
-      // Redirect directly after a successful login response
       if (response.ok) {
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("username", username);
+        sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("username", username);
 
         window.location.href = "/dashboard";
       } else {

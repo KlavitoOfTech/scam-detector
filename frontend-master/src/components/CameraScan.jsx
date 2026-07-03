@@ -97,25 +97,6 @@ function CameraScan() {
       
       const data = JSON.parse(text);
       
-      if (
-        data.msg ===
-        "Token has expired"
-      ) {
-
-        alert(
-          "Session expired. Please login again."
-        );
-
-        localStorage.removeItem(
-          "token"
-        );
-
-        window.location.href =
-          "/login";
-
-        return;
-      }
-
       setResult(data);
 
     }

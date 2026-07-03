@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import logo from "../assets/trustscan.png";
 import Footer from "./Footer";
 
@@ -21,7 +21,19 @@ import {
 import "../styles/dashboard.css";
 
 function Dashboard() {
+
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+
+    const loggedIn = sessionStorage.getItem("isLoggedIn");
+
+    if (!loggedIn) {
+      navigate("/login");
+    }
+
+  }, [navigate]);
 
   return (
     <div className="dashboard">

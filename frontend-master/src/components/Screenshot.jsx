@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/screenshotScan.css";
 
 function Screenshot() {
@@ -8,6 +9,18 @@ function Screenshot() {
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+
+      const loggedIn = sessionStorage.getItem("isLoggedIn");
+
+      if (!loggedIn) {
+          navigate("/login");
+      }
+
+  }, [navigate]);
 
   const analyzeScreenshot = async () => {
     if (!file) {
